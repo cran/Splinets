@@ -21,7 +21,7 @@
 #' 
 
 refine = function(object,  mult=2, newknots=NULL){
-k = object@smorder
+k = object@degree
 S = object@der
 xi = object@knots
 supp = object@supp

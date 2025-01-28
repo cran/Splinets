@@ -16,7 +16,7 @@ The main class in the \code{splinets}-package used for representing a collection
 \describe{
 \item{\code{knots}}{numeric \code{n+2} vector, a vector of n+2 knot locations presented in the increasing order and without ties;}
 
-\item{\code{smorder}}{non-negative integer, the smoothnes order of the splines, i.e. the highest order of non-zero derivative;}
+\item{\code{degree}}{non-negative integer, the degree of the splines, i.e. the highest degree of the polynomial;}
 
 \item{\code{equid}}{logical, indicates if the knots are equidistant;
 Some computations in the equidistant case are simpler so this information helps to account for it.}
@@ -32,10 +32,10 @@ Each matrix in this list is ordered so the rows closer to the top correspond to 
 the support.}
 
 \item{\code{der}}{list (of matrices); a list of the length \code{N} containing
-\code{sum(supp[[i]][,2]-supp[[i]][,1]+1) x (smorder+1)} matrices, where \code{i} is the index running through the list.
+\code{sum(supp[[i]][,2]-supp[[i]][,1]+1) x (degree+1)} matrices, where \code{i} is the index running through the list.
 Each matrix in the list includes the values of the derivatives at the knots in the support of the corresponding spline.}
 
-\item{\code{taylor}}{\code{(n+1) x (smorder+1)}, if \code{equid=FALSE}, or \code{1 x (smorder+1)}
+\item{\code{taylor}}{\code{(n+1) x (degree+1)}, if \code{equid=FALSE}, or \code{1 x (degree+1)}
 if \code{equid=TRUE},  columnwise vectors  of the Taylor expansion coefficients at the knots; 
 Vectors instead of matrices are recognized properly.
 The knot and order dependent matrix of rows of coefficients used in the Taylor expansion of splines.
@@ -79,20 +79,19 @@ sp=new("Splinets") #a generic format for 'Splinets' object
 sp
 #The most important SLOTs of 'Splinets' - the default values
 sp@knots
-sp@smorder
+sp@degree
 sp@der
 sp@supp
 
 set.seed(5); n=13; xi=sort(runif(n+2)); xi[1]=0;xi[n+2]=1
 sp@knots=xi #randomly assigned knots
 
-#Changing the order of 
-#smoothness and intializing Taylor coefficients
-ssp=new("Splinets",knots=xi,smorder=2)
+#Changing the degree and intializing Taylor coefficients
+ssp=new("Splinets",knots=xi,degree=2)
 ssp@taylor
 
 #Equidistant case
-ssp=new("Splinets",knots=seq(0,1,1/(n+1)),smorder=3)
+ssp=new("Splinets",knots=seq(0,1,1/(n+1)),degree=3)
 ssp@taylor
 ssp@equid
 }

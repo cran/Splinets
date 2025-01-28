@@ -6,7 +6,7 @@
 #' unless the definite integral over the whole range is equal to zero. 
 #' Moreover, the support of the function is extended in the RHS up to the RHS end point 
 #' unless the definite integral of the input is zero, in which the case the support is extracted from the obtained spline. 
-#' @param object a \code{Splinets} object of the smoothness order \code{k};
+#' @param object a \code{Splinets} object of the degree \code{k};
 #' @param epsilon non-negative number indicating accuracy when close to zero value are detected; This accuracy is used in 
 #' when the boundary conditions of the integral are checked.  
 #' @return A \code{Splinets}-object with order \code{k+1} that contains the indefinite integrals
@@ -23,7 +23,7 @@
 #' 
 integra = function(object , epsilon=1e-07){
   xi = object@knots
-  k = object@smorder
+  k = object@degree
   supp = object@supp
   S = object@der
   newS = S #the list to keep the new entries of the matrices of the derivatives for integral
@@ -114,7 +114,7 @@ integra = function(object , epsilon=1e-07){
   
   object@supp=supp
   object@der = newS
-  object@smorder = k+1
+  object@degree = k+1
   
 
   

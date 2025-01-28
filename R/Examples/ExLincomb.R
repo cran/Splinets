@@ -49,13 +49,13 @@ plot(new_sp2) # new_sp1 and new_sp2 are same
 #-----------------------------------------#
 n=40; xi=seq(0,1,by=1/(n+1)); k=2; 
 support=list(matrix(c(2,9,15,24,30,37),ncol=2,byrow = TRUE))
-sp=new("Splinets",knots=xi,smorder=k,supp=support) 
+sp=new("Splinets",knots=xi,degree=k,supp=support) 
 m=sum(sp@supp[[1]][,2]-sp@supp[[1]][,1]+1) #the number of knots in the support
 sp@der=list(matrix(rnorm(m*(k+1)),ncol=(k+1))) #the derivative matrix at random
 sp1 = is.splinets(sp)[[2]] #the corrected vs. the original 'der' matrices
 
 support=list(matrix(c(5,12,17,29),ncol=2,byrow = TRUE))
-sp=new("Splinets",knots=xi,smorder=k,supp=support) 
+sp=new("Splinets",knots=xi,degree=k,supp=support) 
 m=sum(sp@supp[[1]][,2]-sp@supp[[1]][,1]+1) #the number of knots in the support
 sp@der=list(matrix(rnorm(m*(k+1)),ncol=(k+1))) #the derivative matrix at random
 sp2 = is.splinets(sp)[[2]] #building a valid spline
@@ -63,7 +63,7 @@ sp2 = is.splinets(sp)[[2]] #building a valid spline
 spp = gather(sp1,sp2)
 
 support=list(matrix(c(3,10,14,21,27,34),ncol=2,byrow = TRUE))
-sp=new("Splinets",knots=xi,smorder=k,supp=support) 
+sp=new("Splinets",knots=xi,degree=k,supp=support) 
 m=sum(sp@supp[[1]][,2]-sp@supp[[1]][,1]+1) #the number of knots in the support
 sp@der=list(matrix(rnorm(m*(k+1)),ncol=(k+1))) #the derivative matrix at random
 sp3 = is.splinets(sp)[[2]] #building a valid spline

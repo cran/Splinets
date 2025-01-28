@@ -71,7 +71,7 @@ aa2=sym2one(b2, inv=TRUE) # matrix 'aa2' is the same as 'a2'
 n=43; xi=seq(0,1,by=1/(n+1)); k=3; xi=sort(runif(n+2)); xi[1]=0; xi[n+2]=1;
 support=list(matrix(c(2,14,17,30,32,43),ncol=2,byrow = TRUE))
 #Third order splines
-ssp=new("Splinets",knots=xi,supp=support,smorder=k) #with partial support
+ssp=new("Splinets",knots=xi,supp=support,degree=k) #with partial support
 
 m=sum(ssp@supp[[1]][,2]-ssp@supp[[1]][,1]+1) #the total number of knots in the support
 ssp@der=list(matrix(rnorm(m*(k+1)),ncol=(k+1)))  #the derivative matrix at random

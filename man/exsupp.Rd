@@ -59,7 +59,7 @@ plot(spl)
 
 xxi=seq(0,20,by=1/(n+1)) #large set of knots for construction of a sparse spline 
 nn=length(xxi)-2
-spspl=new('Splinets',knots=xxi,smorder=k) #generic object from the 'Splinets'-class
+spspl=new('Splinets',knots=xxi,degree=k) #generic object from the 'Splinets'-class
 spspl@der[[1]]=matrix(0,ncol=(k+1),nrow=(nn+2)) #starting with zeros everywhere
 
 spspl@der[[1]][1:(n+2),]=sym2one(spl@der[[1]]) #assigning local spline to a sparse spline at 

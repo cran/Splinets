@@ -57,7 +57,7 @@ n=43; xi=seq(0,1,by=1/(n+1)); k=3; xi=sort(runif(n+2)); xi[1]=0; xi[n+2]=1;
 support=list(matrix(c(2,14,25,43),ncol=2,byrow = TRUE))
 ssp=new("Splinets",knots=xi,supp=support) #with partial support
 nssp=is.splinets(ssp)$robject
-nssp@smorder=3 #changing the order of the 'Splinets' object
+nssp@degree=3 #changing the order of the 'Splinets' object
 m=sum(nssp@supp[[1]][,2]-nssp@supp[[1]][,1]+1) #the number of knots in the support
 nssp@der=list(matrix(rnorm(m*(k+1)),ncol=(k+1)))  #the derivative matrix at random
 spl=is.splinets(nssp)$robject

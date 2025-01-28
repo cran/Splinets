@@ -7,7 +7,7 @@
 deriva(object, epsilon = 1e-07)
 }
 \arguments{
-\item{object}{\code{Splinets} object of the smoothness order \code{k};}
+\item{object}{\code{Splinets} object of the degree \code{k};}
 
 \item{epsilon}{positive number, controls removal of knots from the support; If the derivative is smaller than this number, it is considered 
 to be zero and the corresponding knots are removed from the support.The default value is \code{1e-7}.}

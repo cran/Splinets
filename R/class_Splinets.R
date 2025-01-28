@@ -1,7 +1,7 @@
 #' @title The class to represent a collection of splines
 #' @description The main class in the \code{splinets}-package used for representing a collection of splines.
 #' @slot knots numeric \code{n+2} vector, a vector of n+2 knot locations presented in the increasing order and without ties;
-#' @slot smorder non-negative integer, the smoothnes order of the splines, i.e. the highest order of non-zero derivative;
+#' @slot degree non-negative integer, the degree of the splines, i.e. the highest degree of the polynomial;
 #' @slot equid logical, indicates if the knots are equidistant;
 #' Some computations in the equidistant case are simpler so this information helps to account for it.
 #' @slot supp list (of matrices), \itemize{
@@ -14,9 +14,9 @@
 #' Each matrix in this list is ordered so the rows closer to the top correspond to the intervals closer to the LHS end of
 #' the support. 
 #' @slot der list (of matrices); a list of the length \code{N} containing
-#' \code{sum(supp[[i]][,2]-supp[[i]][,1]+1) x (smorder+1)} matrices, where \code{i} is the index running through the list.
+#' \code{sum(supp[[i]][,2]-supp[[i]][,1]+1) x (degree+1)} matrices, where \code{i} is the index running through the list.
 #' Each matrix in the list includes the values of the derivatives at the knots in the support of the corresponding spline.
-#' @slot taylor \code{(n+1) x (smorder+1)}, if \code{equid=FALSE}, or \code{1 x (smorder+1)}
+#' @slot taylor \code{(n+1) x (degree+1)}, if \code{equid=FALSE}, or \code{1 x (degree+1)}
 #' if \code{equid=TRUE},  columnwise vectors  of the Taylor expansion coefficients at the knots; 
 #' Vectors instead of matrices are recognized properly.
 #' The knot and order dependent matrix of rows of coefficients used in the Taylor expansion of splines.
@@ -56,11 +56,11 @@
 
 setClass("Splinets",
          representation(
-           knots="vector", smorder="numeric", equid="logical",
+           knots="vector", degree="numeric", equid="logical",
            supp="list", der="list", taylor = "matrix",type = "character", periodic="logical", epsilon="numeric"
          ),
          prototype(
-           knots=c(0,1), smorder=0, equid=FALSE, der=list(as.matrix(c(1,1))), type="sp", periodic=FALSE, epsilon=0.0000001
+           knots=c(0,1), degree=0, equid=FALSE, der=list(as.matrix(c(1,1))), type="sp", periodic=FALSE, epsilon=0.0000001
            )
          #prototype sets the initial values for slots, if desired 
 )
@@ -72,7 +72,7 @@ setMethod("initialize", "Splinets", function(.Object, ...) { #This will be used 
                               #the currently described method on '.Object' after finishing this method definition.
                               #Not a very precise description but it works. 
   n <- length(.Object@knots) - 2
-  k <- .Object@smorder
+  k <- .Object@degree
   
   # 1) validate knots
   if(n < k){

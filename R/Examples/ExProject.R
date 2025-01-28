@@ -128,7 +128,7 @@ spls=rspline(spl,5) # a random sample of splines
 plot(spls)
 
 knots=runif(20)
-base=splinet(knots,smorder=k)
+base=splinet(knots,degree=k)
 plot(base$os)
 
 Prsps=project(spls,basis=base$os)
@@ -210,8 +210,8 @@ N=3
 n_knots=2^N*k-1 #the number of internal knots for the dyadic case
 xi = seq(0, 1, length.out = n_knots+2)
 
-so = splinet(xi,smorder = k, periodic = TRUE) #The splinet basis
-stwo = splinet(xi,smorder = k,type='twob', periodic = TRUE) #The two-sided orthogonal basis
+so = splinet(xi,degree = k, periodic = TRUE) #The splinet basis
+stwo = splinet(xi,degree = k,type='twob', periodic = TRUE) #The two-sided orthogonal basis
 
 plot(so$bs,type='dyadic',main='B-Splines on dyadic structure') #B-splines on the dyadic graph 
 
@@ -241,7 +241,7 @@ N=3
 n_knots=2^N*k-1 #the number of internal knots for the dyadic case
 xi = seq(0, 1, length.out = n_knots+2)
 
-so = splinet(xi,smorder = k, periodic = TRUE)
+so = splinet(xi,degree = k, periodic = TRUE)
 
 hf=1/nx 
 grid=seq (hf , 1, by=hf) #grid 

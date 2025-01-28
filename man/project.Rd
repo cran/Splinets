@@ -7,7 +7,7 @@
 project(
   fdsp,
   knots = NULL,
-  smorder = 3,
+  degree = 3,
   periodic = FALSE,
   basis = NULL,
   type = "spnt",
@@ -22,9 +22,9 @@ then it is orthogonally projected or represented in the basis that is specified 
 If the paramater is a matrix, 
 then it is treated as \code{N} piecewise constant functions with the arguments in the first column and the corresponding values of the functions in the remaining \code{N} columns.}
 
-\item{knots}{vector, the knots of the projection space, together with \code{smorder} fully characterizes the projection space; This parameter is overridden by the SLOT \code{basis@knots} of the \code{basis} input if this one is not \code{NULL}.}
+\item{knots}{vector, the knots of the projection space, together with \code{degree} fully characterizes the projection space; This parameter is overridden by the SLOT \code{basis@knots} of the \code{basis} input if this one is not \code{NULL}.}
 
-\item{smorder}{integer, the order of smoothness of the projection space; This parameter is overridden by  the SLOT \code{basis@smorder} of the \code{basis} input if this one is not \code{NULL}.}
+\item{degree}{integer, the degree of the projection space; This parameter is overridden by  the SLOT \code{basis@degree} of the \code{basis} input if this one is not \code{NULL}.}
 
 \item{periodic}{logical, a flag to indicate if B-splines will be of periodic type or not; In the case of periodic splines, the arguments of the input and the knots need to be within [0,1] or, otherwise, an error occurs and a message advising the recentering and rescaling data is shown.}
 
@@ -54,7 +54,7 @@ The value of the function is a list made of four elements
   otherwise it is the input numeric matrix after ordering according to the first column, 
   \item \code{project$coeff} -- \code{N x (n-k+1)} matrix of the coefficients of representation of the projection of the input in the splinet basis,
   \item \code{project$basis} -- the spline basis,
-  \item \code{projedt$sp} -- the \code{Splinets}-object containing the projected splines.
+  \item \code{project$sp} -- the \code{Splinets}-object containing the projected splines.
  }
 }
 \description{
@@ -65,7 +65,7 @@ The obtained coefficients \eqn{\mathbf A = (a_{ji})} with respect to the basis a
 \deqn{
 S_j=\sum_{i=1}^{n-k-1} a_{ji} OB_{i}, \,\, j=1,\dots, N,
  }
-where \eqn{n} is the number of the knots (including the endpoints), \eqn{k} is the spline smoothness order, 
+where \eqn{n} is the number of the knots (including the endpoints), \eqn{k} is the spline degree, 
 \eqn{N} is the number of the projected functions and  \eqn{OB_i}'s consitute the considered basis. 
 The coefficient for the splinet basis are always evaluated and thus, for example, 
 \code{PFD=project(FD,knots); ProjDataSplines=lincomb(PFD$coeff,PFD$basis)}
@@ -216,7 +216,7 @@ spls=rspline(spl,5) # a random sample of splines
 plot(spls)
 
 knots=runif(20)
-base=splinet(knots,smorder=k)
+base=splinet(knots,degree=k)
 plot(base$os)
 
 Prsps=project(spls,basis=base$os)
@@ -298,8 +298,8 @@ N=3
 n_knots=2^N*k-1 #the number of internal knots for the dyadic case
 xi = seq(0, 1, length.out = n_knots+2)
 
-so = splinet(xi,smorder = k, periodic = TRUE) #The splinet basis
-stwo = splinet(xi,smorder = k,type='twob', periodic = TRUE) #The two-sided orthogonal basis
+so = splinet(xi,degree = k, periodic = TRUE) #The splinet basis
+stwo = splinet(xi,degree = k,type='twob', periodic = TRUE) #The two-sided orthogonal basis
 
 plot(so$bs,type='dyadic',main='B-Splines on dyadic structure') #B-splines on the dyadic graph 
 
@@ -329,7 +329,7 @@ N=3
 n_knots=2^N*k-1 #the number of internal knots for the dyadic case
 xi = seq(0, 1, length.out = n_knots+2)
 
-so = splinet(xi,smorder = k, periodic = TRUE)
+so = splinet(xi,degree = k, periodic = TRUE)
 
 hf=1/nx 
 grid=seq (hf , 1, by=hf) #grid 

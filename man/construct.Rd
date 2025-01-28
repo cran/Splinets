@@ -4,15 +4,15 @@
 \alias{construct}
 \title{Construction of a \code{Splinets} object}
 \usage{
-construct(knots, smorder, matder, supp = vector(), mthd = "RRM")
+construct(knots, degree, matder, supp = vector(), mthd = "RRM")
 }
 \arguments{
 \item{knots}{\code{n+2} vector, the knots over which the spline is built; 
-There should be at least \code{2*smorder+4} of knots.}
+There should be at least \code{2*degree+4} of knots.}
 
-\item{smorder}{integer, the order of smoothness;}
+\item{degree}{integer, the degree of the spline;}
 
-\item{matder}{\code{(n+2)x(smorder+1)} matrix, the matrix of derivatives; 
+\item{matder}{\code{(n+2)x(degree+1)} matrix, the matrix of derivatives; 
 This matrix will be corrected if does not correspond to a proper spline.}
 
 \item{supp}{vector, either empty or two integers representing the single interval support;}

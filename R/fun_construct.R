@@ -4,9 +4,9 @@
 #' from a vector of knots and a matrix of proposed derivatives.
 #' The matrix is tested for its correctness like in \code{is.splinets} and adjusted using one of the implemented methods.
 #' @param knots \code{n+2} vector, the knots over which the spline is built; 
-#' There should be at least \code{2*smorder+4} of knots.
-#' @param smorder integer, the order of smoothness;
-#' @param matder \code{(n+2)x(smorder+1)} matrix, the matrix of derivatives; 
+#' There should be at least \code{2*degree+4} of knots.
+#' @param degree integer, the degree of the spline;
+#' @param matder \code{(n+2)x(degree+1)} matrix, the matrix of derivatives; 
 #' This matrix will be corrected if does not correspond to a proper spline.
 #' @param supp vector, either empty or two integers representing the single interval support; 
 #' @param mthd string, one of the three methods for correction of the matrix of derivative:
@@ -30,7 +30,7 @@
 #' @example R/Examples/ExConstruct.R
 #'
 #'
-construct=function(knots,smorder,matder,supp=vector(),mthd='RRM'){
+construct=function(knots,degree,matder,supp=vector(),mthd='RRM'){
    
    if(length(supp)==0){#The full support is marked by an empty list
       support=list()
@@ -48,7 +48,7 @@ construct=function(knots,smorder,matder,supp=vector(),mthd='RRM'){
    der=list()
    der[[1]]=matder
    cat("\nUsing  method",mthd,"to correct the derivative matrix entries.\n")
-   build=new("Splinets",knots=knots,smorder=smorder,supp=support,der=der)
+   build=new("Splinets",knots=knots,degree=degree,supp=support,der=der)
    build=is.splinets(build)
    build=build[[2]]
    Vd=build@taylor

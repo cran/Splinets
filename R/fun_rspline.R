@@ -7,7 +7,7 @@
 #' where  \eqn{\mathbf Z} is a \eqn{(n+2)\times (k+1)} matrix having iid standard normal variables
 #' as its entries, while \eqn{\boldsymbol \Sigma} and \eqn{\boldsymbol \Theta} are matrix parameters. 
 #' This matrix error term is then corrected by one of the methods and thus resulting in a matrix of derivatives at knots corresponding to a valid spline. 
-#' @param S \code{Splinets}-object with \code{n+2} knots and of the order of smoothness \code{k}, representing the center of randomly simulated splines; 
+#' @param S \code{Splinets}-object with \code{n+2} knots and of the degree \code{k}, representing the center of randomly simulated splines; 
 #' When the number of splines in the object is bigger than one, only the first spline in the object is used. 
 #' @param N positive integer, size of the sample;
 #' @param Sigma matrix; \itemize{

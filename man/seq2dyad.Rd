@@ -11,7 +11,7 @@ seq2dyad(n_sp, k)
 The dyadic net does not need to be fully dyadic, i.e. \code{n_sp} does not need to be equal to \eqn{k2^n-1}, 
 where \eqn{n} is the number of the internal knots. See the references for more details.}
 
-\item{k}{the size of a tuple in the dyadic net; It naturally corresponds to the smoothness order of splines for which the 
+\item{k}{the size of a tuple in the dyadic net; It naturally corresponds to the degree of splines for which the 
 net is build.}
 }
 \value{

@@ -7,7 +7,7 @@
 is.splinets(object)
 }
 \arguments{
-\item{object}{\code{Splinets} object, the object to be diagnosed; For this object to be corrected properly each support interval has to have at least \code{2*smorder+4} knots.}
+\item{object}{\code{Splinets} object, the object to be diagnosed; For this object to be corrected properly each support interval has to have at least \code{2*degree+4} knots.}
 }
 \value{
 A list made of: a logical value \code{is}, a \code{Splinets} object \code{robject}, and a numeric value \code{Er}.
@@ -54,7 +54,7 @@ IS$is   #equivalent to the above
 
 #Third order splines with a noisy matrix of the derivative
 set.seed(5)
-k=3; sp@smorder=k; sp@der[[1]]=matrix(rnorm((n+2)*(k+1)),ncol=(k+1))
+k=3; sp@degree=k; sp@der[[1]]=matrix(rnorm((n+2)*(k+1)),ncol=(k+1))
 
 IS=is.splinets(sp)
 IS[[2]]@taylor #corrections
@@ -88,7 +88,7 @@ nsp@der
 sp@der
 
 #Third order splines
-nsp@smorder=3
+nsp@degree=3
 IS=is.splinets(nsp)
 
 IS[[2]]@taylor #corrections
@@ -99,7 +99,7 @@ is.splinets(IS[[2]]) #verification that the correction is a valid object
 
 #Randomly assigning the derivative -- a very 'unstable' function.
 set.seed(5)
-k=nsp@smorder; S=matrix(rnorm((n+2)*(k+1)),ncol=(k+1)); nsp@der[[1]]=S
+k=nsp@degree; S=matrix(rnorm((n+2)*(k+1)),ncol=(k+1)); nsp@der[[1]]=S
 
 IS=is.splinets(nsp) #the 2nd element of 'IS' is a spline obtained by correcting 'S'
 nsp=is.splinets(IS[[2]])
@@ -130,7 +130,7 @@ support=list(matrix(c(2,12,15,27,30,40),ncol=2,byrow = TRUE))
 m=sum(support[[1]][,2]-support[[1]][,1]+1) #the number of knots in the support
 SS=list(matrix(rnorm(m*(k+1)),ncol=(k+1))) #the derivative matrix at random
 
-sp=new("Splinets",knots=xi,smorder=k,supp=support,der=SS) 
+sp=new("Splinets",knots=xi,degree=k,supp=support,der=SS) 
 
 IS=is.splinets(sp)
 
@@ -156,7 +156,7 @@ nssp@supp
 nssp@der
 
 #Third order splines
-nssp@smorder=3 #changing the order of the 'Splinets' object
+nssp@degree=3 #changing the order of the 'Splinets' object
 set.seed(5)
 m=sum(nssp@supp[[1]][,2]-nssp@supp[[1]][,1]+1) #the number of knots in the support
 nssp@der=list(matrix(rnorm(m*(k+1)),ncol=(k+1)))  #the derivative matrix at random

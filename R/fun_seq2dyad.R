@@ -7,7 +7,7 @@
 #' @param n_sp positive integer, the number of splines to be organized into the dyadic net; 
 #' The dyadic net does not need to be fully dyadic, i.e. \code{n_sp} does not need to be equal to \eqn{k2^n-1}, 
 #' where \eqn{n} is the number of the internal knots. See the references for more details.
-#' @param k the size of a tuple in the dyadic net; It naturally corresponds to the smoothness order of splines for which the 
+#' @param k the size of a tuple in the dyadic net; It naturally corresponds to the degree of splines for which the 
 #' net is build. 
 #' @return The double indexed list of single row matrices of positive integers in the range \code{1:n_sp}.
 #' Each vector has typically the length \code{k} and some of them may correspond to incomplete tuplets and thus can be 

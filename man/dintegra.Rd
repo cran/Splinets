@@ -76,12 +76,12 @@ dintegra(spl)
 #The third order case
 n=40; xi=seq(0,1,by=1/(n+1)); k=3; 
 support=list(matrix(c(2,12,15,27,30,40),ncol=2,byrow = TRUE))
-sp=new("Splinets",knots=xi,smorder=k,supp=support) 
+sp=new("Splinets",knots=xi,degree=k,supp=support) 
 m=sum(sp@supp[[1]][,2]-sp@supp[[1]][,1]+1) #the number of knots in the support
 sp@der=list(matrix(rnorm(m*(k+1)),ncol=(k+1))); sp1 = is.splinets(sp)[[2]] 
 
 support=list(matrix(c(2,13,17,30),ncol=2,byrow = TRUE))
-sp=new("Splinets",knots=xi,smorder=k,supp=support) 
+sp=new("Splinets",knots=xi,degree=k,supp=support) 
 m=sum(sp@supp[[1]][,2]-sp@supp[[1]][,1]+1) #the number of knots in the support
 sp@der=list(matrix(rnorm(m*(k+1)),ncol=(k+1))); sp2 = is.splinets(sp)[[2]] 
 

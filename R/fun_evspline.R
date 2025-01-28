@@ -58,7 +58,7 @@ evspline = function(object, sID = NULL, x = NULL, N = 250){
   y = matrix(0, nrow = length(x), ncol = length(sID))
   
   for(i in 1:length(sID)){
-    y[,i] = evaluate_spline(xi, supp[[sID[i]]], object@smorder, S[[sID[i]]], x)
+    y[,i] = evaluate_spline(xi, supp[[sID[i]]], object@degree, S[[sID[i]]], x)
   }
   evsp=cbind(x,y)
   return(unname(evsp))

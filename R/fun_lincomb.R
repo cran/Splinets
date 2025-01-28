@@ -26,7 +26,7 @@
 #' 
 
 lincomb = function(object, A, reduced = TRUE, SuppExtr = TRUE){
-  k = object@smorder
+  k = object@degree
   S = object@der
   xi = object@knots
   supp = object@supp

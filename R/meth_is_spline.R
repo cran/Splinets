@@ -3,7 +3,7 @@
 #' @description The method performs verification of the properties of SLOTS of an object belonging to the
 #' \code{Splinets}--class. In the case when all the properties are satisfied the logical \code{TRUE} is returned. Otherwise,
 #' \code{FALSE} is returned together with suggested corrections.
-#' @param object \code{Splinets} object, the object to be diagnosed; For this object to be corrected properly each support interval has to have at least \code{2*smorder+4} knots.
+#' @param object \code{Splinets} object, the object to be diagnosed; For this object to be corrected properly each support interval has to have at least \code{2*degree+4} knots.
 #' @return A list made of: a logical value \code{is}, a \code{Splinets} object \code{robject}, and a numeric value \code{Er}.
 #' \itemize{
 #' \item The logical value \code{is} indicates if all the condtions for the elements of \code{Splinets} object to be a collection of valid
@@ -51,7 +51,7 @@ setMethod(
 
     #First: checking if there is enough knots
     n <- length(object@knots)-2
-    k=object@smorder
+    k=object@degree
     if (n < k) {
       cat("SLOT 'knots' in a 'splinets' object should be a vector of at least length ", k+2, "\n")
       stop("Reconsider a vector of increasing values for SLOT 'knots'.")
@@ -465,7 +465,7 @@ Ordered  knots with removed ties are given in the output `Splinets' object.\n")
         }
       }
     }
-  } #The end of the non-zero smoothness order.
+  } #The end of the non-zero degree.
     #End of PART III - the main condtions for the matrices
 
     issp=list(is,robject,Er)

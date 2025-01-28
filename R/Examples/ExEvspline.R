@@ -6,7 +6,7 @@ sp=new("Splinets",knots=xi)
 
 #Randomly assigning the derivatives -- a very 'wild' function.
 S=matrix(rnorm((n+2)*(k+1)),ncol=(k+1))
-sp@supp=list(t(c(1,n+2))); sp@smorder=k; sp@der[[1]]=S
+sp@supp=list(t(c(1,n+2))); sp@degree=k; sp@der[[1]]=S
 
 y = evspline(sp)
 plot(y,type = 'l',col='red')

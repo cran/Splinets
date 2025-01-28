@@ -22,7 +22,7 @@
 #' If there are two input \code{Splinet}-objects, then the \eqn{m \times r}{m x r} matrix of the cross-inner product is returned, where \eqn{m} is 
 #' the number of splines in the first object and \eqn{r} is their number in the second one. 
 #' If only the norms are evaluated (\code{norm_only= TRUE}) it is always evaluating the norms of the first object. 
-#' In the case of two input \code{Splinets}-objects, they should be over the same set of knots and of the same smoothness order. 
+#' In the case of two input \code{Splinets}-objects, they should be over the same set of knots and of the same degree. 
 #' @export
 #' @inheritSection Splinets-class References
 #' @seealso \code{\link{lincomb}} for evaluation of a linear combination of splines;
@@ -32,7 +32,7 @@
 
 gramian = function(Sp , norm_only = FALSE, sID = NULL, Sp2 = NULL ,s2ID = NULL){
   knots = Sp@knots
-  k = Sp@smorder
+  k = Sp@degree
   S = Sp@der
   supp = Sp@supp
   
@@ -65,7 +65,7 @@ gramian = function(Sp , norm_only = FALSE, sID = NULL, Sp2 = NULL ,s2ID = NULL){
       }
       Gram_M = t(Gram_M-diag(diag(Gram_M),nrow=n_so)) + Gram_M #to obtain the second half below the diagonal in the single Splinets input case
     }else{#The case of two Splinets
-      if(prod(knots != Sp2@knots) | (k != Sp2@smorder)){stop("The order or the knots of the two input splinets do not agree.")}
+      if(prod(knots != Sp2@knots) | (k != Sp2@degree)){stop("The order or the knots of the two input splinets do not agree.")}
       S2 = Sp2@der
       supp2 = Sp2@supp
       d2 = length(S2)       #the number of splines in the object

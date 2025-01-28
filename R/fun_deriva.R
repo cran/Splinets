@@ -3,7 +3,7 @@
 #' derivatives of all the splines from the input \code{Splinets}-object.
 #' The function also verifies the support set of the output to provide the accurate information about 
 #' the support sets by excluding regions over which the original function is constant. 
-#' @param object \code{Splinets} object of the smoothness order \code{k};
+#' @param object \code{Splinets} object of the degree \code{k};
 #' @param epsilon positive number, controls removal of knots from the support; If the derivative is smaller than this number, it is considered 
 #' to be zero and the corresponding knots are removed from the support.The default value is \code{1e-7}.  
 #' @return A \code{Splinets}-object of the order \code{k-1} that also contains the updated information about the support set.
@@ -17,7 +17,7 @@
 #' 
 #'  
 deriva = function(object, epsilon = 1e-7){
-  k = object@smorder
+  k = object@degree
   
   S = object@der
   supp = object@supp
@@ -47,7 +47,7 @@ deriva = function(object, epsilon = 1e-7){
   }
   
   object@der = S
-  object@smorder = k-1
+  object@degree = k-1
   object@taylor = object@taylor[, -(k+1), drop = FALSE]
   object@supp = supp
   object@type = 'sp' #derivative is always of 'sp' type by default

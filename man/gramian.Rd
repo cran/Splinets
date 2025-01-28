@@ -39,7 +39,7 @@ If there is only one input \code{Splinet}-object, then the non-negative symmetri
 If there are two input \code{Splinet}-objects, then the \eqn{m \times r}{m x r} matrix of the cross-inner product is returned, where \eqn{m} is 
 the number of splines in the first object and \eqn{r} is their number in the second one. 
 If only the norms are evaluated (\code{norm_only= TRUE}) it is always evaluating the norms of the first object. 
-In the case of two input \code{Splinets}-objects, they should be over the same set of knots and of the same smoothness order.
+In the case of two input \code{Splinets}-objects, they should be over the same set of knots and of the same degree.
 }
 \section{References}{
 
@@ -81,13 +81,13 @@ gramian(spl,sID=c(2,3),Sp2=spl,s2ID=c(1)) #the cross-Gramian matrix
 #-----------------------------------------#
 n=40; xi=seq(0,1,by=1/(n+1)); k=2; 
 support=list(matrix(c(2,9,15,24,30,37),ncol=2,byrow = TRUE))
-sp=new("Splinets",knots=xi,smorder=k,supp=support) 
+sp=new("Splinets",knots=xi,degree=k,supp=support) 
 m=sum(sp@supp[[1]][,2]-sp@supp[[1]][,1]+1) #the number of knots in the support
 sp@der=list(matrix(rnorm(m*(k+1)),ncol=(k+1))) #the derivative matrix at random
 sp1 = is.splinets(sp)[[2]] #the correction of 'der' matrices
 
 support=list(matrix(c(5,12,17,29),ncol=2,byrow = TRUE))
-sp=new("Splinets",knots=xi,smorder=k,supp=support) 
+sp=new("Splinets",knots=xi,degree=k,supp=support) 
 m=sum(sp@supp[[1]][,2]-sp@supp[[1]][,1]+1) #the number of knots in the support
 sp@der=list(matrix(rnorm(m*(k+1)),ncol=(k+1))) #the derivative matrix at random
 sp2 = is.splinets(sp)[[2]] 
@@ -95,7 +95,7 @@ sp2 = is.splinets(sp)[[2]]
 spp = gather(sp1,sp2)
 
 support=list(matrix(c(3,10,14,21,27,34),ncol=2,byrow = TRUE))
-sp=new("Splinets",knots=xi,smorder=k,supp=support) 
+sp=new("Splinets",knots=xi,degree=k,supp=support) 
 m=sum(sp@supp[[1]][,2]-sp@supp[[1]][,1]+1) #the number of knots in the support
 sp@der=list(matrix(rnorm(m*(k+1)),ncol=(k+1))) #the derivative matrix at random
 sp3 = is.splinets(sp)[[2]] 

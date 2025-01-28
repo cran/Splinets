@@ -8,7 +8,7 @@
 #' All spline bases are kept in the format of \code{Splinets}-objects.
 #' @param knots \code{n+2} vector, the knots (presented in the increasing order); It is not needed, when
 #' \code{Bsplines} argumment is not \code{NULL}, in which the case the knots from \code{Bsplines} are inherited.
-#' @param smorder integer,  the order of the splines, the default is \code{smorder=3}; Again it is inherited from the
+#' @param degree integer,  the degree of the splines, the default is \code{degree=3}; Again it is inherited from the
 #' \code{Bsplines} argumment if the latter is not \code{NULL}.
 #' @param type string, the type of the basis; The following choices are available 
 #' \itemize{
@@ -31,7 +31,7 @@
 #' @details 
 #'  The B-spline basis, if not given in 
 #' the input, is computed 
-#' from  the following recurrent (with respect to the smoothness order of the B-splines) formula
+#' from  the following recurrent (with respect to the degree of the B-splines) formula
 #' \deqn{
 #' B_{l,k}^{\boldsymbol \xi }(x)=
 #' \frac{x- {\xi_{l}}
@@ -49,7 +49,7 @@
 #'  } 
 #'  The dyadic algorithm that is implemented takes into account efficiencies due to the equally space knots 
 #' (exhibited in the Toeplitz form of the Gram matrix) only if the problem is fully dyadic, i.e. if the number of 
-#' the internal knots is \code{smorder*2^N-1}, for some integer \code{N}. To utilize this efficiency it may be advantageous, 
+#' the internal knots is \code{degree*2^N-1}, for some integer \code{N}. To utilize this efficiency it may be advantageous, 
 #' for a large number of equally spaced knots, to choose them so that their number follows the fully dyadic form.
 #' An additional advantage of the dyadic form is the complete symmetry at all levels of the support. The algorithm works with 
 #' both zero boundary splines and periodic splines. 
@@ -58,18 +58,18 @@
 #' @example R/Examples/ExSplinet.R 
 #' @seealso \code{\link{project}} for projecting into the functional spaces spanned by the spline bases; 
 #' \code{\link{lincomb}} for evaluation of a linear combination of splines;
-#' \code{\link{seq2dyad}} for building the dyadic structure for a splinet of a given smoothness order;
+#' \code{\link{seq2dyad}} for building the dyadic structure for a splinet of a given degree;
 #' \code{\link{plot,Splinets-method}} for visualisation of splinets; 
 
 
-splinet = function(knots=NULL, smorder = 3, type = 'spnt', Bsplines=NULL, periodic= FALSE,  norm=F){
+splinet = function(knots=NULL, degree = 3, type = 'spnt', Bsplines=NULL, periodic= FALSE,  norm=F){
   if(!is.null( Bsplines)){
    periodic= Bsplines@periodic
   }
   if (!periodic) {
-    splnt=splinet1(knots=knots, smorder = smorder, type = type, Bsplines=Bsplines,  norm=norm)  
+    splnt=splinet1(knots=knots, degree = degree, type = type, Bsplines=Bsplines,  norm=norm)  
   }else{
-    splnt=splinet2(knots=knots, smorder = smorder, type = type, Bsplines=Bsplines,  norm=norm) 
+    splnt=splinet2(knots=knots, degree = degree, type = type, Bsplines=Bsplines,  norm=norm) 
   }
   return(splnt)
 }

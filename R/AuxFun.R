@@ -512,6 +512,7 @@ typeWords = function(t, w = TRUE){
 }
 
 ####
+#' @noRd
 print.class <- function(object){
   # 1) type
   if(is.null(object@type)){
@@ -530,7 +531,7 @@ print.class <- function(object){
   # 3) size
   cat(paste("Size:", length(object@der), typeWords(object@type, w = FALSE)))
   # 4) order
-  cat(paste("Order:", object@smorder, "\n"))
+  cat(paste("Order:", object@degree, "\n"))
   invisible(object)
   # 5) support
   cat(paste("Support:", supp_info(object@supp)))
@@ -1456,7 +1457,7 @@ aug_bound = function(n_so, k){
 }
 # Generate the map between sequential order and net structure
 # n_so: the number of splines
-# k: smorder
+# k: degree
 # return: a matrix, from left to right, each column present 
 #   1) 'Seq_ID': the sequential id
 #   2) 'supp_level': the support level, the top of the dyadic structure corresponds to the smallest level (1)
@@ -1560,8 +1561,8 @@ plot.basis = function(object){
            'darkolivegreen4', 'deepskyblue', 'red4', 'slateblue')
   n_so = length(object@der)
   y = evspline(object)
-  plot(y[,1], y[,2], type = "l", main = paste(numToWord(object@smorder), "order B-spline basis"),
-       xlab = "", ylab = "", lwd = 2, col = ourcol[1], ylim = range(y), bty="n")
+  plot(y[,1], y[,2], type = "l", 
+       xlab = "", ylab = "", lwd = 2, col = ourcol[1], ylim = range(y[,2:dim(y)[2]]), bty="n")
   if(n_so > 1){
     for(i in 3:(n_so+1)){
       points(y[,1], y[,i], type = "l", lwd = 2, col = ourcol[i%%8+1])
@@ -1577,8 +1578,8 @@ plot.obasis = function(object){
            'darkolivegreen4', 'deepskyblue', 'red4', 'slateblue')
   n_so = length(object@der)
   y = evspline(object)
-  plot(y[,1], y[,2], type = "l", main = paste(numToWord(object@smorder), "order", typeWords(object@type)),
-       xlab = "", ylab = "", lwd = 2, col = ourcol[1], ylim = range(y), bty="n")
+  plot(y[,1], y[,2], type = "l",
+       xlab = "", ylab = "", lwd = 2, col = ourcol[1], ylim = range(y[,2:dim(y)[2]]), bty="n")
   for(i in 2:n_so){
     points(y[,1], y[, i+1], type = "l", lwd = 2, col = ourcol[i%%8+1])
   }
@@ -1590,7 +1591,7 @@ plot.obasis = function(object){
 plot.splinet = function(object,lwd=2,mrgn=2){
   n_so = length(object@der)
   xi = object@knots
-  k = object@smorder
+  k = object@degree
   n = length(xi)-2
   y = evspline(object)
   # plot setups
@@ -1606,9 +1607,8 @@ plot.splinet = function(object,lwd=2,mrgn=2){
   for(i in 1:n_level){
     seqID = net_str[which(net_str[,2] == i), 1]
     
-      plot(y[, 1], y[, seqID[1]+1], type = "l", ylab = "", bty = "n",
-           ylim = range(y[, seqID+1]), xlab = "", col = ourcol[seqID[1]%%8+1], lwd = lwd,
-           main = paste(numToWord(k), "order splinet basis" )) 
+    plot(y[, 1], y[, seqID[1]+1], type = "l", ylab = "", bty = "n",
+         ylim = range(y[, seqID+1]), xlab = "", col = ourcol[seqID[1]%%8+1], lwd = lwd) 
     
     for(j in seqID[-1]){
       points(y[, 1], y[, j+1], type = "l", col = ourcol[j%%8+1], lwd = lwd) 
@@ -1617,7 +1617,7 @@ plot.splinet = function(object,lwd=2,mrgn=2){
     abline(v = xi, lty = 3, lwd = 0.5)
   }
   # par(mfrow = c(1,1))
-
+  
   layout(matrix(1:1, 1, 1))
 }
 
@@ -1740,7 +1740,7 @@ supp_union_bin = function(supp1, supp2){
 innerdb = function(fdata,basis){
   
   xi = basis@knots
-  k = basis@smorder
+  k = basis@degree
   supp = basis@supp #it must be a 1 x 2 matrix form, not a vector
   S = basis@der
   n_basis=length(S)
@@ -1874,7 +1874,7 @@ plot.spline.p=function(object, x = NULL, sID = NULL, vknots=T, ...){
   Nsp=length(sID)
   n_so = length(object@der)
   xi = object@knots
-  k = object@smorder
+  k = object@degree
   n = length(xi)-2
   if(length(x)==0){
     x= (1/360)*seq(0,360, by = 1) #Change from degrees to interval [0,1]
@@ -1952,7 +1952,7 @@ plot.splinet.p = function(object, x = NULL, sID = NULL, vknots=TRUE, type='l', b
   Nsp=length(sID)
   n_so = length(object@der)
   xi = object@knots
-  k = object@smorder
+  k = object@degree
   n = length(xi)-2
   y = evspline(object,x=x) #Here the values for plots are evaluated
   
@@ -2028,18 +2028,18 @@ plot.splinet.p = function(object, x = NULL, sID = NULL, vknots=TRUE, type='l', b
 
 # splinet1 was fun_splinet in Version 1 of Splinet package.
 
-splinet1 = function(knots=NULL, smorder = 3, type = 'spnt', Bsplines=NULL, norm=F){
+splinet1 = function(knots=NULL, degree = 3, type = 'spnt', Bsplines=NULL, norm=F){
   
   #------------------------------#
   # S1: generating bspline basis #
   #------------------------------#
   if(!is.null(Bsplines)){ #inheriting the arguments if B-splines are in the input
     knots=Bsplines@knots
-    smorder=k=Bsplines@smorder
+    degree=k=Bsplines@degree
     n = length(knots) - 2
     
   }else{
-    k = smorder
+    k = degree
     n = length(knots) - 2
     
     #In the case knots are not in the increasing order they are sorted
@@ -2051,7 +2051,7 @@ splinet1 = function(knots=NULL, smorder = 3, type = 'spnt', Bsplines=NULL, norm=
     #
     
     #Creating a generic 'Splinets' object to store computed spline bases
-    so = new("Splinets", knots = knots, smorder = k) #it checks among other things if knots are equidistant
+    so = new("Splinets", knots = knots, degree = k) #it checks among other things if knots are equidistant
     #and sets 'so@equid' to a proper value, see `setClass` in 
     #'Splinets'-class defintion
     so@type = "bs"
@@ -2153,7 +2153,7 @@ splinet1 = function(knots=NULL, smorder = 3, type = 'spnt', Bsplines=NULL, norm=
 
 #splinet2 function uses splinets1 function which was fun_splinet in version 1 of the package.
 
-splinet2 = function(knots, smorder = 3, type = 'spnt', Bsplines=NULL, norm=F){
+splinet2 = function(knots, degree = 3, type = 'spnt', Bsplines=NULL, norm=F){
   #In the case knots are not in the increasing order they are sorted
   if(!is.null(knots)){
   if(min(diff(knots))<0){
@@ -2170,7 +2170,7 @@ splinet2 = function(knots, smorder = 3, type = 'spnt', Bsplines=NULL, norm=F){
        stop("The B-splines in the input are not periodic, which is required in the periodic case.")}
     else{
     knots=Bsplines@knots
-    smorder=k=Bsplines@smorder
+    degree=k=Bsplines@degree
     n = length(knots) - 2
     Bsplines=Bsplines
     Bspl=Bsplines
@@ -2184,9 +2184,9 @@ splinet2 = function(knots, smorder = 3, type = 'spnt', Bsplines=NULL, norm=F){
     #------------------------------#
     # S1: generating bspline basis #
     #------------------------------#
-    k = smorder
+    k = degree
     n = length(knots) -2
-    sop = new("Splinets", knots = knots, smorder = k)
+    sop = new("Splinets", knots = knots, degree = k)
     sop@type = "bs"
     sop@periodic=TRUE
     

@@ -99,7 +99,7 @@ n_knots2=2^N*k-1 #the number of internal knots for the dyadic case
 xi2 = seq(0, 1, length.out = n_knots2+2) 
 
 #For illustration one can plot the B-splines and the corresponding splinet
-so = splinet(xi2,smorder = k, periodic = TRUE,norm = TRUE) 
+so = splinet(xi2,degree = k, periodic = TRUE,norm = TRUE) 
 
 plot(so$bs)
 plot(so$bs,type='dyadic') #To facilitate the comparison with the splinet better 
@@ -108,7 +108,7 @@ plot(so$os)
 
 
 #Projecting direction/wind data onto splines
-PrS1=project(FirstDayDataF1V1,xi2,smorder=k,periodic = TRUE, graph = TRUE)
+PrS1=project(FirstDayDataF1V1,xi2,degree=k,periodic = TRUE, graph = TRUE)
 
 S1=PrS1$sp
 
@@ -136,7 +136,7 @@ for(i in 2:days){
   #Padding the data with zeros as the sampling frequency is not sufficiently dense over [0,1]
   DataF1V1=rbind(DataF1V1,cbind(seq(0,1,by=1/24),rep(0,25)))
   
-  PrS1=project(DataF1V1,xi2,smorder=k,periodic = TRUE)
+  PrS1=project(DataF1V1,xi2,degree=k,periodic = TRUE)
   
   S1=gather(S1,PrS1$sp) #Collecting projections of daily wind-direction histograms at 10[m]
   
